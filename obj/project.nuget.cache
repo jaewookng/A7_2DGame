@@ -1,0 +1,29 @@
+{
+  "version": 2,
+  "dgSpecHash": "bvTv3At3pb8=",
+  "success": true,
+  "projectFilePath": "/Users/jaewookang/RiderProjects/group_2_assignment7/group_2_assignment7.csproj",
+  "expectedPackageFiles": [
+    "/Users/jaewookang/.nuget/packages/monogame.content.builder.task/3.8.4.1/monogame.content.builder.task.3.8.4.1.nupkg.sha512",
+    "/Users/jaewookang/.nuget/packages/monogame.framework.desktopgl/3.8.4.1/monogame.framework.desktopgl.3.8.4.1.nupkg.sha512",
+    "/Users/jaewookang/.nuget/packages/monogame.library.openal/1.24.3.2/monogame.library.openal.1.24.3.2.nupkg.sha512",
+    "/Users/jaewookang/.nuget/packages/monogame.library.sdl/2.32.2.1/monogame.library.sdl.2.32.2.1.nupkg.sha512",
+    "/Users/jaewookang/.nuget/packages/nvorbis/0.10.4/nvorbis.0.10.4.nupkg.sha512",
+    "/Users/jaewookang/.nuget/packages/system.memory/4.5.3/system.memory.4.5.3.nupkg.sha512",
+    "/Users/jaewookang/.nuget/packages/system.valuetuple/4.5.0/system.valuetuple.4.5.0.nupkg.sha512",
+    "/Users/jaewookang/.nuget/packages/microsoft.netcore.app.ref/9.0.11/microsoft.netcore.app.ref.9.0.11.nupkg.sha512",
+    "/Users/jaewookang/.nuget/packages/microsoft.aspnetcore.app.ref/9.0.11/microsoft.aspnetcore.app.ref.9.0.11.nupkg.sha512",
+    "/Users/jaewookang/.nuget/packages/microsoft.netcore.app.host.osx-arm64/9.0.11/microsoft.netcore.app.host.osx-arm64.9.0.11.nupkg.sha512"
+  ],
+  "logs": [
+    {
+      "code": "NU1900",
+      "level": "Warning",
+      "message": "Error occurred while getting package vulnerability data: Access to the path '/Users/jaewookang/.local/share/NuGet/http-cache/670c1461c29885f9aa22c281d8b7da90845b38e4$ps:_api.nuget.org_v3_index.json/vuln_index.dat-new' is denied.",
+      "projectPath": "/Users/jaewookang/RiderProjects/group_2_assignment7/group_2_assignment7.csproj",
+      "warningLevel": 1,
+      "filePath": "/Users/jaewookang/RiderProjects/group_2_assignment7/group_2_assignment7.csproj",
+      "targetGraphs": []
+    }
+  ]
+}
