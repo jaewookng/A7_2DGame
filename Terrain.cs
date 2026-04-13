@@ -53,7 +53,7 @@ public class Terrain
     // segment# = 0 or -1 for is theres tile or no tile
     private void AddLayer(int segment1, int segment2, int segment3, int segment4)
     {
-        int[] makingLayer = new int[30];
+        int[] makingLayer = new int[35];
         
         //bottommost layer
         //for (int i = 0; i < 30; i++)
@@ -73,7 +73,7 @@ public class Terrain
         {
             makingLayer[i] = segment3;
         }
-        for (int i = 21; i<30; i++)
+        for (int i = 21; i<makingLayer.Length; i++)
         {
             makingLayer[i] = segment4;
         }
