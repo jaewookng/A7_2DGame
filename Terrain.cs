@@ -24,12 +24,19 @@ public class Terrain
         
         //picking speicifically the tiles needed from og tilemap
         _tilePalette.Add(new Rectangle(15, 5, tileSize, tileSize*2)); //grass
-        _tilePalette.Add(new Rectangle(tileSize, 0, tileSize, tileSize));
-        _tilePalette.Add(new Rectangle(tileSize*2, 0, tileSize, tileSize));
+        //_tilePalette.Add(new Rectangle(tileSize, 0, tileSize, tileSize));
+        //_tilePalette.Add(new Rectangle(tileSize*2, 0, tileSize, tileSize));
         
         _layers = new List<int[]>();
         
-        MakeBottomLayer();
+        //bottommost layer
+        AddLayer(0, 0, 0, 0); //all ground no gaps
+        // first layer
+        AddLayer(-1, 0, -1, 0); //2 platforms
+        //second layer
+        AddLayer(-1, 0, 0, -1); //1long plotform
+        
+        //MakeBottomLayer();
     }
 
     private void MakeBottomLayer()
@@ -41,6 +48,37 @@ public class Terrain
         }
         
         _layers.Add(mapPathBottom);
+    }
+
+    // segment# = 0 or -1 for is theres tile or no tile
+    private void AddLayer(int segment1, int segment2, int segment3, int segment4)
+    {
+        int[] makingLayer = new int[30];
+        
+        //bottommost layer
+        //for (int i = 0; i < 30; i++)
+        //{
+          //  makingLayer[i] = 0;
+        //}
+        
+        for (int i = 0; i < 7 ; i++)
+        {
+            makingLayer[i] = segment1;
+        }
+        for (int i = 7; i <14; i++)
+        {
+            makingLayer[i] = segment2;
+        }
+        for (int i = 14; i <21; i++)
+        {
+            makingLayer[i] = segment3;
+        }
+        for (int i = 21; i<30; i++)
+        {
+            makingLayer[i] = segment4;
+        }
+        
+        _layers.Add(makingLayer);
     }
 
     
@@ -69,7 +107,7 @@ public class Terrain
     }
     
     
-    public void HitboxInteraction(ref Vector2 position, Rectangle hitbox, ref Vector2 velocity)
+    public void HitboxInteraction(Vector2 position, Rectangle hitbox, Vector2 velocity)
     {
         foreach (var externalObj in Collision())
         {
@@ -104,6 +142,26 @@ public class Terrain
         List<Rectangle> hitboxes = new List<Rectangle>();
         int scaledSize = _tileSize * _tileScale;
 
+        for (int layerIndex = 0; layerIndex < _layers.Count; layerIndex++)
+        {
+            //layers are 250 apart
+            int layerY = 800 - (layerIndex * 250); 
+            int[] currentLayer = _layers[layerIndex];
+
+            for (int i = 0; i < currentLayer.Length; i++)
+            {
+                if (currentLayer[i] != -1)
+                {
+                    int x = i * scaledSize;
+                    hitboxes.Add(new Rectangle(x, layerY, scaledSize, scaledSize));
+                }
+            }
+        }
+        return hitboxes;
+        
+        /*List<Rectangle> hitboxes = new List<Rectangle>();
+        int scaledSize = _tileSize * _tileScale;
+
         foreach (var layer in _layers)
         {
             for (int i = 0; i < layer.Length; i++)
@@ -118,33 +176,58 @@ public class Terrain
                 }
             }
         }
-        return hitboxes;
+        return hitboxes;*/
     }
-
+    
+    //updated draw cuz layer heights need to be different
     public void Draw(SpriteBatch spriteBatch)
     {
-        for (int i = 0; i < mapPathBottom.Length; i++)
+        int scaledSize = _tileSize * _tileScale;
+
+        for (int layerIndex = 0; layerIndex < _layers.Count; layerIndex++)
         {
-            int tileIndex = mapPathBottom[i]; //match tile in palette to number in mappath
-            
-            if (tileIndex < 0) continue;
+            int layerY = 800 - (layerIndex * 250);
+            int[] currentLayer = _layers[layerIndex];
 
-            //where tile goes on screen
-            //400 as h for now
-            Vector2 position = new Vector2(i * (_tileSize*_tileScale), 800); 
+            for (int i = 0; i < currentLayer.Length; i++)
+            {
+                int tileIndex = currentLayer[i];
+                if (tileIndex == -1) continue;
 
-            spriteBatch.Draw(
-                _tileMap, 
-                position, 
-                _tilePalette[tileIndex], //now draw tile
-                Color.White,
-                0f,
-                Vector2.Zero,
-                _tileScale,
-                SpriteEffects.None,
-                1f
-            );
+                Vector2 position = new Vector2(i * scaledSize, layerY);
+                spriteBatch.Draw(_tileMap, position, _tilePalette[tileIndex], Color.White, 0f, Vector2.Zero, _tileScale, SpriteEffects.None, 0f);
+            }
         }
     }
+    
+/*
+    public void Draw(SpriteBatch spriteBatch)
+    {
+        for (int j = 0; j < _layers.Count; j++)
+        {
+            for (int i = 0; i < mapPathBottom.Length; i++)
+            {
+                int tileIndex = mapPathBottom[i]; //match tile in palette to number in mappath
 
+                if (tileIndex < 0) continue;
+
+                //where tile goes on screen
+                //400 as h for now
+                Vector2 position = new Vector2(i * (_tileSize * _tileScale), 800);
+
+                spriteBatch.Draw(
+                    _tileMap,
+                    position,
+                    _tilePalette[tileIndex], //now draw tile
+                    Color.White,
+                    0f,
+                    Vector2.Zero,
+                    _tileScale,
+                    SpriteEffects.None,
+                    1f
+                );
+            }
+        }
+    }
+*/
 }

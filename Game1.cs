@@ -55,9 +55,11 @@ public class Game1 : Game
         base.Update(gameTime);
         
         // access terrain data
+        // incorporate with enemy collision
         List<Rectangle> terrainCollison = terrain.GetTerrain();
+        
         //player interaction w terrain
-        terrain.HitboxInteraction(ref player.Position, player.Hitbox, ref player.Velocity);
+        //////terrain.HitboxInteraction(player.position, player.hitbox, player.velocity);
     }
 
     protected override void Draw(GameTime gameTime)
