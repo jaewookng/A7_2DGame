@@ -295,19 +295,19 @@
     ]
   },
   "packageFolders": {
-    "/Users/jaewookang/.nuget/packages/": {}
+    "C:\\Users\\xinli\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/jaewookang/RiderProjects/group_2_assignment7/group_2_assignment7.csproj",
+      "projectUniqueName": "C:\\Users\\xinli\\Desktop\\UT\\2026_Spring\\CS324E_Comp_Graphics\\MonoGame\\A7_2DGame\\group_2_assignment7.csproj",
       "projectName": "group_2_assignment7",
-      "projectPath": "/Users/jaewookang/RiderProjects/group_2_assignment7/group_2_assignment7.csproj",
-      "packagesPath": "/Users/jaewookang/.nuget/packages/",
-      "outputPath": "/Users/jaewookang/RiderProjects/group_2_assignment7/obj/",
+      "projectPath": "C:\\Users\\xinli\\Desktop\\UT\\2026_Spring\\CS324E_Comp_Graphics\\MonoGame\\A7_2DGame\\group_2_assignment7.csproj",
+      "packagesPath": "C:\\Users\\xinli\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\xinli\\Desktop\\UT\\2026_Spring\\CS324E_Comp_Graphics\\MonoGame\\A7_2DGame\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/jaewookang/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\xinli\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net9.0"
@@ -363,11 +363,15 @@
             "version": "[9.0.11, 9.0.11]"
           },
           {
-            "name": "Microsoft.NETCore.App.Host.osx-arm64",
+            "name": "Microsoft.NETCore.App.Host.win-x64",
             "version": "[9.0.11, 9.0.11]"
           },
           {
             "name": "Microsoft.NETCore.App.Ref",
+            "version": "[9.0.11, 9.0.11]"
+          },
+          {
+            "name": "Microsoft.WindowsDesktop.App.Ref",
             "version": "[9.0.11, 9.0.11]"
           }
         ],
@@ -376,16 +380,8 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/10.0.101/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.101/PortableRuntimeIdentifierGraph.json"
       }
     }
-  },
-  "logs": [
-    {
-      "code": "NU1900",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Error occurred while getting package vulnerability data: Access to the path '/Users/jaewookang/.local/share/NuGet/http-cache/670c1461c29885f9aa22c281d8b7da90845b38e4$ps:_api.nuget.org_v3_index.json/vuln_index.dat-new' is denied."
-    }
-  ]
+  }
 }
