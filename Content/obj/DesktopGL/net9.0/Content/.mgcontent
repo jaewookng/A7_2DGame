@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SourceFileCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Profile>Reach</Profile>
+  <Platform>DesktopGL</Platform>
+  <Config />
+  <SourceFiles>
+    <File>/Users/jaewookang/RiderProjects/group_2_assignment7/Content/50054d2b-242e-47f8-9ff4-911adb4c5e13 (1).jpg</File>
+    <File>/Users/jaewookang/RiderProjects/group_2_assignment7/Content/Attack1.png</File>
+    <File>/Users/jaewookang/RiderProjects/group_2_assignment7/Content/bg_layer1.png</File>
+    <File>/Users/jaewookang/RiderProjects/group_2_assignment7/Content/bg_layer2.png</File>
+    <File>/Users/jaewookang/RiderProjects/group_2_assignment7/Content/bg_layer3.png</File>
+    <File>/Users/jaewookang/RiderProjects/group_2_assignment7/Content/Death.png</File>
+    <File>/Users/jaewookang/RiderProjects/group_2_assignment7/Content/DefaultFont.spritefont</File>
+    <File>/Users/jaewookang/RiderProjects/group_2_assignment7/Content/Fall.png</File>
+    <File>/Users/jaewookang/RiderProjects/group_2_assignment7/Content/fg_layer1.png</File>
+    <File>/Users/jaewookang/RiderProjects/group_2_assignment7/Content/Idle.png</File>
+    <File>/Users/jaewookang/RiderProjects/group_2_assignment7/Content/Jump.png</File>
+    <File>/Users/jaewookang/RiderProjects/group_2_assignment7/Content/Run.png</File>
+    <File>/Users/jaewookang/RiderProjects/group_2_assignment7/Content/Take hit.png</File>
+    <File>/Users/jaewookang/RiderProjects/group_2_assignment7/Content/Tiles.png</File>
+  </SourceFiles>
+  <DestFiles>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+  </DestFiles>
+</SourceFileCollection>
