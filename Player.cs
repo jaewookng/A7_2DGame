@@ -32,7 +32,7 @@ namespace group_2_assignment7
         private float _drawScale = 1.5f;
         private int _hitboxWidth = 50;
         private int _hitboxHeight = 55;
-        private Vector2 _hitboxOffset = new Vector2(75, 105);
+        private Vector2 _hitboxOffset = new Vector2(75, 50);
         private bool _facingRight = true;
         private bool _isOnGround = false;
         private Weapon _weapon;

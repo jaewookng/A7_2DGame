@@ -180,10 +180,9 @@ namespace group_2_assignment7
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            _spriteBatch.Begin(samplerState: SamplerState.LinearWrap);
-
             //XINLIN'S CODE HERE
             //------------------------------terrain and background --------------------------------------
+            _spriteBatch.Begin(samplerState: SamplerState.LinearWrap);
             
             bgLayer1.Display(_spriteBatch, Window.ClientBounds.Width, Window.ClientBounds.Height);
             bgLayer2.Display(_spriteBatch, Window.ClientBounds.Width, Window.ClientBounds.Height);

@@ -38,7 +38,7 @@ public class Terrain
         
         //MakeBottomLayer();
     }
-
+/*
     private void MakeBottomLayer()
     {
         mapPathBottom = new int[30];
@@ -49,6 +49,7 @@ public class Terrain
         
         _layers.Add(mapPathBottom);
     }
+*/
 
     // segment# = 0 or -1 for is theres tile or no tile
     private void AddLayer(int segment1, int segment2, int segment3, int segment4)
@@ -107,6 +108,7 @@ public class Terrain
     }
     
     
+    // for player - map interaction
     public void HitboxInteraction(Vector2 position, Rectangle hitbox, Vector2 velocity)
     {
         foreach (var externalObj in Collision())
