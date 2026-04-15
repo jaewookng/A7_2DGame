@@ -59,6 +59,10 @@ namespace group_2_assignment7
         private Rectangle _exitButton = new Rectangle(880, 45, 100, 30);
         private Rectangle _pauseButton = new Rectangle(880, 80, 100, 30);
 
+        // PAUSE SCREEN BUTTONS (centered)
+        private Rectangle _continueButton = new Rectangle(400, 300, 200, 40);
+        private Rectangle _pauseQuitButton = new Rectangle(400, 360, 200, 40);
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -130,6 +134,24 @@ namespace group_2_assignment7
             bool clicked = mouseState.LeftButton == ButtonState.Pressed && _previousMouseState.LeftButton == ButtonState.Released;
             Point mousePoint = new Point(mouseState.X, mouseState.Y);
 
+            // HUD button toggles pause during gameply
+            if (!_isGameOver && !_isVictory && clicked && _pauseButton.Contains(mousePoint))
+            {
+                _isPaused = !_isPaused;
+            }
+
+            if (_isPaused && clicked) // pause screen
+            {
+                if (_continueButton.Contains(mousePoint))
+                {
+                    _isPaused = false;
+                }
+                if (_pauseQuitButton.Contains(mousePoint))
+                {
+                    Exit();
+                }
+            }
+
             if (clicked)
             {
                 if (_exitButton.Contains(mousePoint))
@@ -141,10 +163,6 @@ namespace group_2_assignment7
                     ResetGame();
                     _previousMouseState = mouseState;
                     return;
-                }
-                if (_pauseButton.Contains(mousePoint))
-                {
-                    _isPaused = !_isPaused;
                 }
             }
             _previousMouseState = mouseState;
@@ -318,25 +336,27 @@ namespace group_2_assignment7
             }
 
             // RESTART & EXIT BUTTONS
-            MouseState ms = Mouse.GetState();
-            Point mp = new Point(ms.X, ms.Y);
-
-            Color restartColor = _restartButton.Contains(mp) ? Color.Gray : Color.DarkGray;
-            Color exitColor = _exitButton.Contains(mp) ? Color.DarkRed : Color.Gray;
-
-            _spriteBatch.Draw(_blankTexture, _restartButton, restartColor);
+            _spriteBatch.Draw(_blankTexture, _restartButton, Color.DarkGray);
             _spriteBatch.DrawString(_guiFont, "Restart", new Vector2(_restartButton.X + 10, _restartButton.Y + 5), Color.White);
 
-            _spriteBatch.Draw(_blankTexture, _exitButton, exitColor);
+            _spriteBatch.Draw(_blankTexture, _exitButton, Color.DarkGray);
             _spriteBatch.DrawString(_guiFont, "Exit", new Vector2(_exitButton.X + 25, _exitButton.Y + 5), Color.White);
 
-            Color pauseColor = _pauseButton.Contains(mp) ? Color.Gray : Color.DarkGray;
-            _spriteBatch.Draw(_blankTexture, _pauseButton, pauseColor);
+            _spriteBatch.Draw(_blankTexture, _pauseButton, Color.DarkGray);
             _spriteBatch.DrawString(_guiFont, _isPaused ? "Resume" : "Pause", new Vector2(_pauseButton.X + 10, _pauseButton.Y + 5), Color.White);
 
             if (_isPaused)
             {
-                _spriteBatch.DrawString(_guiFont, "PAUSED", new Vector2(430, 250), Color.White);
+                _spriteBatch.Draw(_blankTexture, new Rectangle(0, 0, Window.ClientBounds.Width, Window.ClientBounds.Height), Color.Black * 0.5f);
+                // PAUSED title
+                _spriteBatch.DrawString(_guiFont, "PAUSED", new Vector2(440, 230), Color.White);
+
+                // Continue button
+                _spriteBatch.Draw(_blankTexture, _continueButton, Color.DarkGray);
+                _spriteBatch.DrawString(_guiFont, "Continue", new Vector2(_continueButton.X + 55, _continueButton.Y + 10), Color.White);
+                // Quit button
+                _spriteBatch.Draw(_blankTexture, _pauseQuitButton, Color.DarkGray);
+                _spriteBatch.DrawString(_guiFont, "Quit", new Vector2(_pauseQuitButton.X + 75, _pauseQuitButton.Y + 10), Color.White);
             }
             else if (_isGameOver)
             {
