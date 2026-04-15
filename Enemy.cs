@@ -29,6 +29,11 @@ namespace group_2_assignment7
         private float _attackCooldown = 1.5f;
         private float _attackTimer = 0f;
 
+        // idle patrol jw. the slimes will still not follow the player over that right edge unfortunately
+        private float _patrolTimer = 0f;
+        private float _patrolDuration = 2f;
+        private int _patrolDirection = 1;
+
         private float _animationTimer;
         private float _timePerFrame = 0.15f;
         private int _currentFrame;
@@ -73,6 +78,13 @@ namespace group_2_assignment7
             switch (_currentState)
             {
                 case EnemyState.Idle:
+                    _patrolTimer += deltaTime;
+                    if (_patrolTimer >= _patrolDuration)
+                    {
+                        _patrolDirection *= -1;
+                        _patrolTimer = 0f;
+                    }
+                    _velocity.X = MoveSpeed * 0.5f * _patrolDirection;
                     break;
 
                 case EnemyState.Chase:
