@@ -14,12 +14,23 @@ namespace group_2_assignment7
         private SpriteFont _guiFont;
         private bool _isGameOver = false;
         private bool _isVictory = false;
+        private bool _isPaused = false;
         
         // DHARMA'S ENEMY VARIABLES
         private List<Enemy> _enemies;
         private Texture2D _enemyTexture;
         private Texture2D _blankTexture;
-        private float _enemySpawnTimer = 0f; // the "additional feature timer" requirement
+        // WAVE SYSTEM
+        private int _currentWave = 1;
+        private int _totalWaves = 10;
+        private int _enemiesLeftToSpawn;
+        private float _enemySpawnTimer = 0f;
+        private float _baseSpawnInterval = 5f;
+        private float _waveSpawnInterval;
+        private bool _waveInProgress = false;
+        private float _waveCooldown = 3f;
+        private float _waveCooldownTimer = 0f;
+        private bool _waitingForNextWave = false;
         
         //JAEWOO'S PLAYER VARIABLES
         private Player _player;
@@ -41,6 +52,12 @@ namespace group_2_assignment7
         private Background bgLayer4;
 
         private ViewPort viewPort;
+        private MouseState _previousMouseState;
+
+        // HUD BUTTONS
+        private Rectangle _restartButton = new Rectangle(880, 10, 100, 30);
+        private Rectangle _exitButton = new Rectangle(880, 45, 100, 30);
+        private Rectangle _pauseButton = new Rectangle(880, 80, 100, 30);
 
         public Game1()
         {
@@ -64,8 +81,10 @@ namespace group_2_assignment7
             // JAEWOO'S CODE HERE
             _player = new Player(new Vector2(100, 296));
 
-            //spawn an initial enemy to test
-            _enemies.Add(new Enemy(new Vector2(600, 100)));
+            // WAVE SYSTEM INIT
+            _enemiesLeftToSpawn = _currentWave;
+            _waveSpawnInterval = _baseSpawnInterval;
+            _waveInProgress = true;
 
             base.Initialize();
         }
@@ -106,10 +125,34 @@ namespace group_2_assignment7
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            // HUD BUTTON CLICKS (always active, even when frozen)
+            MouseState mouseState = Mouse.GetState();
+            bool clicked = mouseState.LeftButton == ButtonState.Pressed && _previousMouseState.LeftButton == ButtonState.Released;
+            Point mousePoint = new Point(mouseState.X, mouseState.Y);
+
+            if (clicked)
+            {
+                if (_exitButton.Contains(mousePoint))
+                {
+                    Exit();
+                }
+                if (_restartButton.Contains(mousePoint))
+                {
+                    ResetGame();
+                    _previousMouseState = mouseState;
+                    return;
+                }
+                if (_pauseButton.Contains(mousePoint))
+                {
+                    _isPaused = !_isPaused;
+                }
+            }
+            _previousMouseState = mouseState;
+
             viewPort.Update(_player.Position, Window.ClientBounds.Width, Window.ClientBounds.Height);
             
-            //freeze the game if the player wins or loses
-            if (_isGameOver || _isVictory) return;
+            //freeze the game if the player wins, loses, or pauses
+            if (_isGameOver || _isVictory || _isPaused) return;
 
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
@@ -133,12 +176,48 @@ namespace group_2_assignment7
 
             // DHARMA'S CODE: ENEMY UPDATES
             
-            // spawner timer Logic
-            _enemySpawnTimer += deltaTime;
-            if (_enemySpawnTimer >= 10f && _enemies.Count < 5) //spawn a new enemy every 10 seconds, max 5
+            // WAVE SPAWNING
+            if (_waveInProgress)
             {
-                _enemies.Add(new Enemy(new Vector2(800, 100))); //spawn off right side of screen
-                _enemySpawnTimer = 0f;
+                _enemySpawnTimer += deltaTime;
+                if (_enemySpawnTimer >= _waveSpawnInterval && _enemiesLeftToSpawn > 0)
+                {
+                    _enemies.Add(new Enemy(new Vector2(800, 100)));
+                    _enemiesLeftToSpawn--;
+                    _enemySpawnTimer = 0f;
+                }
+
+                if (_enemiesLeftToSpawn <= 0 && _enemies.Count == 0)
+                {
+                    _waveInProgress = false;
+                    if (_currentWave >= _totalWaves)
+                    {
+                        _isVictory = true;
+                    }
+                    else
+                    {
+                        _waitingForNextWave = true;
+                        _waveCooldownTimer = 0f;
+                    }
+                }
+            }
+
+            if (_waitingForNextWave)
+            {
+                _waveCooldownTimer += deltaTime;
+                if (_waveCooldownTimer >= _waveCooldown)
+                {
+                    _currentWave++;
+                    _enemiesLeftToSpawn = _currentWave;
+                    _waveSpawnInterval = _baseSpawnInterval - (_currentWave - 1) * 0.5f;
+                    if (_waveSpawnInterval < 0.5f)
+                    {
+                        _waveSpawnInterval = 0.5f;
+                    }
+                    _enemySpawnTimer = 0f;
+                    _waveInProgress = true;
+                    _waitingForNextWave = false;
+                }
             }
 
             //update all existing enemies
@@ -167,19 +246,31 @@ namespace group_2_assignment7
             }
 
 
-            //WIN / LOSE CONDITIONS (GUI REQUIREMENT)
-            if (_player.IsDead || _player.Position.Y >= 900) // dead or fall off map
+            //LOSE CONDITION
+            if (_player.IsDead || _player.Position.Y >= 900)
             {
                 _isGameOver = true;
-            }
-            //win condition: Survived the waves and killed all enemies
-            else if (_enemies.Count == 0 && _enemySpawnTimer < 0f) //modify logic based on final level design
-            {
-                _isVictory = true;
             }
             
 
             base.Update(gameTime);
+        }
+
+        private void ResetGame()
+        {
+            _player = new Player(new Vector2(100, 296));
+            _player.LoadContent(Content);
+            _enemies.Clear();
+            _currentWave = 1;
+            _enemiesLeftToSpawn = 1;
+            _waveSpawnInterval = _baseSpawnInterval;
+            _enemySpawnTimer = 0f;
+            _waveInProgress = true;
+            _waitingForNextWave = false;
+            _waveCooldownTimer = 0f;
+            _isGameOver = false;
+            _isVictory = false;
+            _isPaused = false;
         }
 
         protected override void Draw(GameTime gameTime)
@@ -221,7 +312,33 @@ namespace group_2_assignment7
             
             _player.DrawHealthBar(_spriteBatch, _blankTexture, _guiFont);
 
-            if (_isGameOver)
+            if (!_isGameOver && !_isVictory)
+            {
+                _spriteBatch.DrawString(_guiFont, "Wave " + _currentWave + "/" + _totalWaves, new Vector2(20, 45), Color.White);
+            }
+
+            // RESTART & EXIT BUTTONS
+            MouseState ms = Mouse.GetState();
+            Point mp = new Point(ms.X, ms.Y);
+
+            Color restartColor = _restartButton.Contains(mp) ? Color.Gray : Color.DarkGray;
+            Color exitColor = _exitButton.Contains(mp) ? Color.DarkRed : Color.Gray;
+
+            _spriteBatch.Draw(_blankTexture, _restartButton, restartColor);
+            _spriteBatch.DrawString(_guiFont, "Restart", new Vector2(_restartButton.X + 10, _restartButton.Y + 5), Color.White);
+
+            _spriteBatch.Draw(_blankTexture, _exitButton, exitColor);
+            _spriteBatch.DrawString(_guiFont, "Exit", new Vector2(_exitButton.X + 25, _exitButton.Y + 5), Color.White);
+
+            Color pauseColor = _pauseButton.Contains(mp) ? Color.Gray : Color.DarkGray;
+            _spriteBatch.Draw(_blankTexture, _pauseButton, pauseColor);
+            _spriteBatch.DrawString(_guiFont, _isPaused ? "Resume" : "Pause", new Vector2(_pauseButton.X + 10, _pauseButton.Y + 5), Color.White);
+
+            if (_isPaused)
+            {
+                _spriteBatch.DrawString(_guiFont, "PAUSED", new Vector2(430, 250), Color.White);
+            }
+            else if (_isGameOver)
             {
                 _spriteBatch.DrawString(_guiFont, "GAME OVER! You Died.", new Vector2(300, 250), Color.Red);
             }

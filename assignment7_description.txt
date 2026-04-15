@@ -1,0 +1,11 @@
+Game:
+A 2D side-scrolling fighting game - the player can run and jump onto platforms, and attack enemies; enemies will spawn periodically, and the player wins when all enemies are defeated, or dies when the player runs out of HP or falls off the map. HP is calculated per-hit, as indicated by an HP bar at the top left of the game window.
+Use WAD to move the player and left mouse click to attack.
+
+Xinlin:
+Created Terrain class that uses tiles from a tilemap and lays out each layer of the platforms while applying hitboxes to all the existing tiles. Used parallax effect from past Hands-On, added layers and changed image scaling.
+
+Jaewoo:
+Created Player class that uses various animation states from the samurai character while casting offset hitboxes to its periphery. It's hurtbox extends a range using a weapon subclass. This implementation leaves extra room for weapon flexibility (such as power scaling, melee/range) but is left as attack1 for now.
+
+Dharma:

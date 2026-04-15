@@ -37,7 +37,7 @@ namespace group_2_assignment7
         private bool _isOnGround = false;
         private Weapon _weapon;
 
-        // animation textures (one strip per animation)
+        // animation textures. the download pack had one png strip per anim state
         private Texture2D _idleTexture;
         private Texture2D _runTexture;
         private Texture2D _jumpTexture;
@@ -46,7 +46,7 @@ namespace group_2_assignment7
         private Texture2D _takeHitTexture;
         private Texture2D _deathTexture;
 
-        // frame counts per animation
+        // frame counts per anim
         private int _idleFrames = 4;
         private int _runFrames = 8;
         private int _jumpFrames = 2;
@@ -55,7 +55,7 @@ namespace group_2_assignment7
         private int _takeHitFrames = 3;
         private int _deathFrames = 7;
 
-        // animation state
+        // anim state
         private float _animationTimer;
         private float _timePerFrame = 0.3f;
         private int _currentFrame;
