@@ -9,3 +9,4 @@ Jaewoo:
 Created Player class that uses various animation states from the samurai character while casting offset hitboxes to its periphery. It's hurtbox extends a range using a weapon subclass. This implementation leaves extra room for weapon flexibility (such as power scaling, melee/range) but is left as attack1 for now.
 
 Dharma:
+My responsibility for our MonoGame side-scrolling RPG project required me to create the AI-controlled Enemy class which I developed to manage all aspects of combat, autonomous movement, and environmental collision detection. I created a modular state-machine system which includes three states (Idle/Chase/Attack) together with an animated 8-frame slime sprite that follows the player while observing gravity and maintaining its animation timer.
