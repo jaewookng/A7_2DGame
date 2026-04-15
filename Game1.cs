@@ -40,6 +40,8 @@ namespace group_2_assignment7
         private Background bgLayer3;
         private Background bgLayer4;
 
+        private ViewPort viewPort;
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -49,7 +51,7 @@ namespace group_2_assignment7
 
         protected override void Initialize()
         {
-            _graphics.PreferredBackBufferWidth = 800;
+            _graphics.PreferredBackBufferWidth = 1000;
             _graphics.PreferredBackBufferHeight = 600;
             _graphics.ApplyChanges();
 
@@ -57,6 +59,7 @@ namespace group_2_assignment7
 
             // XINLIN'S CODE HERE
             // terrain is created in LoadContent
+            viewPort = new ViewPort();
 
             // JAEWOO'S CODE HERE
             _player = new Player(new Vector2(100, 296));
@@ -103,6 +106,8 @@ namespace group_2_assignment7
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            viewPort.Update(_player.Position, Window.ClientBounds.Width, Window.ClientBounds.Height);
+            
             //freeze the game if the player wins or loses
             if (_isGameOver || _isVictory) return;
 
@@ -163,7 +168,7 @@ namespace group_2_assignment7
 
 
             //WIN / LOSE CONDITIONS (GUI REQUIREMENT)
-            if (_player.IsDead)
+            if (_player.IsDead || _player.Position.Y >= 900) // dead or fall off map
             {
                 _isGameOver = true;
             }
@@ -172,6 +177,7 @@ namespace group_2_assignment7
             {
                 _isVictory = true;
             }
+            
 
             base.Update(gameTime);
         }
@@ -189,6 +195,11 @@ namespace group_2_assignment7
             bgLayer3.Display(_spriteBatch, Window.ClientBounds.Width, Window.ClientBounds.Height);
             bgLayer4.Display(_spriteBatch, Window.ClientBounds.Width, Window.ClientBounds.Height);
             
+            _spriteBatch.End();
+            
+            // separate spritebatch for camerawork (eveyrthign besides backgrounds & HUD/UI shoudl be under this)
+            _spriteBatch.Begin(transformMatrix: viewPort.Transform);
+            
             terrain.Draw(_spriteBatch);
             // //---------------------------------------------------------------------------------
 
@@ -201,8 +212,13 @@ namespace group_2_assignment7
                 //if no texture yet, this will crash, comment it out if testing just logic.
                 enemy.Draw(_spriteBatch, _enemyTexture);
             }
+            
+            _spriteBatch.End();
 
+            
             //GUI / HUD REQUIREMENT
+            _spriteBatch.Begin();
+            
             _player.DrawHealthBar(_spriteBatch, _blankTexture, _guiFont);
 
             if (_isGameOver)
